@@ -18,3 +18,45 @@ spec:
       prune: true
       selfHeal: true
 
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: child-app1
+  namespace: parent-app
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/andres-mccree/andres-proj'
+    targetRevision: HEAD
+    path: apps/child-app1
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: parent-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: child-app2
+  namespace: parent-app
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/andres-mccree/andres-proj'
+    targetRevision: HEAD
+    path: apps/child-app2
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: parent-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+
+
