@@ -1,0 +1,20 @@
+# Parent Application
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: parent-app
+  namespace: parent-app
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/andres-mccree/andres-proj'
+    targetRevision: HEAD
+    path: apps/parent-app
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: parent-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
