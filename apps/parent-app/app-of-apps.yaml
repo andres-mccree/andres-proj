@@ -1,31 +1,30 @@
+# Parent Application
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: parent-app
-  namespace: argocd
+  namespace: default
 spec:
   project: default
   source:
     repoURL: 'https://github.com/andres-mccree/andres-proj'
     targetRevision: HEAD
-    path: apps/child-app1
+    path: apps/parent-app
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: argocd
+    namespace: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-  sourceType: Git
-  syncWindow:
-    schedule: '* * * * *'
 
 ---
+# Child Application 1
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: child-app1
-  namespace: argocd
+  namespace: default
 spec:
   project: default
   source:
@@ -34,21 +33,19 @@ spec:
     path: apps/child-app1
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: child-app1
+    namespace: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-  sourceType: Git
-  syncWindow:
-    schedule: '* * * * *'
 
 ---
+# Child Application 2
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: child-app2
-  namespace: argocd
+  namespace: default
 spec:
   project: default
   source:
@@ -57,12 +54,9 @@ spec:
     path: apps/child-app2
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: child-app2
+    namespace: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-  sourceType: Git
-  syncWindow:
-    schedule: '* * * * *'
 
