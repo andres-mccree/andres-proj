@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: parent-appset
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/andres-mccree/andres-proj
+        revision: HEAD
+        directories:
+          - path: apps/child-app1
+          - path: apps/child-app2
+  template:
+    metadata:
+      name: '{{path.basename}}-app'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/andres-mccree/andres-proj
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
